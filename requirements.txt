@@ -1,7 +1,7 @@
 Django==4.2.30
 asgiref==3.11.1
 sqlparse==0.5.5
-psycopg2-binary==2.9.9
+psycopg[binary]==3.1.18
 Pillow==12.2.0
 whitenoise==6.7.0
 gunicorn==21.2.0
