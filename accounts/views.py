@@ -16,6 +16,7 @@ from .models import (
     Building,
     Facility,
     Household,
+    Institution,
     LandBody,
     MedicalStaff,
     Professional,
@@ -25,7 +26,6 @@ from .models import (
     Utility,
     WaterBody,
 )
-
 
 def _age_group(birth_date):
     today = date.today()
