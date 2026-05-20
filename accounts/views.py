@@ -16,7 +16,6 @@ from .models import (
     Building,
     Facility,
     Household,
-    Institution,
     LandBody,
     MedicalStaff,
     Professional,
@@ -538,6 +537,7 @@ def institutions(request):
             "institutions": institutions_qs,
             "medical_staff": medical_staff,
             "professionals": professionals,
+            "residents": Resident.objects.all(),  # ← ADDED
             "tracked_people_total": institutions_qs.count() + medical_staff.count() + professionals.count(),
         },
     )
@@ -557,6 +557,7 @@ def institution_add(request, itype):
 
         elif itype == "medical":
             MedicalStaff.objects.create(
+                resident_id=request.POST.get("resident") or None,  # ← ADDED
                 name=request.POST["full_name"],
                 position=request.POST["position"],
                 contact=request.POST.get("contact", ""),
@@ -564,6 +565,7 @@ def institution_add(request, itype):
 
         elif itype == "professional":
             Professional.objects.create(
+                resident_id=request.POST.get("resident") or None,  # ← ADDED
                 name=request.POST["full_name"],
                 profession=request.POST["profession"],
                 contact=request.POST.get("contact", ""),
@@ -576,6 +578,7 @@ def institution_add(request, itype):
         "professional": "professionals",
     }
     return _redirect_with_tab("institutions", tab_map.get(itype, "institutions"))
+
 
 @login_required
 def institution_delete(request, itype, pk):
@@ -595,7 +598,6 @@ def institution_delete(request, itype, pk):
         "professional": "professionals",
     }
     return _redirect_with_tab("institutions", tab_map.get(itype, "institutions"))
-
 
 @login_required
 def reports(request):
